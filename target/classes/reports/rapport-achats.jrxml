@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport name="rapport-achats" pageWidth="842" pageHeight="595" columnWidth="794"
+              leftMargin="24" rightMargin="24" topMargin="24" bottomMargin="24"
+              whenNoDataType="NoDataSection">
+    <style name="Header" mode="Opaque" backcolor="#153B2F" forecolor="#FFFFFF"
+           fontName="SansSerif" fontSize="8.0" bold="true" vTextAlign="Middle">
+        <box leftPadding="6" rightPadding="6"/>
+    </style>
+    <style name="Cell" forecolor="#24362F" fontName="SansSerif" fontSize="8.0" vTextAlign="Middle"/>
+    <parameter name="REPORT_TITLE" class="java.lang.String"/>
+    <parameter name="RESTAURANT_NAME" class="java.lang.String"/>
+    <parameter name="PERIOD" class="java.lang.String"/>
+    <parameter name="CURRENCY" class="java.lang.String"/>
+    <parameter name="nombreFactures" class="java.lang.Integer"/>
+    <parameter name="nombreLignes" class="java.lang.Long"/>
+    <parameter name="montantTotal" class="java.math.BigDecimal"/>
+    <field name="dateAffichee" class="java.lang.String"/>
+    <field name="numeroFacture" class="java.lang.String"/>
+    <field name="fournisseurNom" class="java.lang.String"/>
+    <field name="nombreLignes" class="java.lang.Long"/>
+    <field name="montantTotal" class="java.math.BigDecimal"/>
+    <title height="62">
+        <element kind="textField" x="0" y="0" width="794" height="27" fontSize="18.0" bold="true">
+            <expression><![CDATA[$P{REPORT_TITLE}]]></expression>
+        </element>
+        <element kind="textField" x="0" y="32" width="794" height="17" forecolor="#526258" fontSize="10.0" bold="true">
+            <expression><![CDATA[$P{RESTAURANT_NAME}]]></expression>
+        </element>
+        <element kind="textField" x="0" y="48" width="794" height="14" forecolor="#526258" fontSize="9.0">
+            <expression><![CDATA[$P{PERIOD} + "  |  Montants en " + $P{CURRENCY}]]></expression>
+        </element>
+    </title>
+    <columnHeader height="28">
+        <element kind="staticText" x="0" y="0" width="90" height="28" style="Header"><text><![CDATA[DATE]]></text></element>
+        <element kind="staticText" x="90" y="0" width="125" height="28" style="Header"><text><![CDATA[N° FACTURE]]></text></element>
+        <element kind="staticText" x="215" y="0" width="260" height="28" style="Header"><text><![CDATA[FOURNISSEUR]]></text></element>
+        <element kind="staticText" x="475" y="0" width="75" height="28" style="Header" hTextAlign="Right"><text><![CDATA[LIGNES]]></text></element>
+        <element kind="staticText" x="550" y="0" width="244" height="28" style="Header" hTextAlign="Right"><text><![CDATA[MONTANT]]></text></element>
+    </columnHeader>
+    <detail>
+        <band height="26">
+            <element kind="textField" x="0" y="0" width="90" height="26" style="Cell"><expression><![CDATA[$F{dateAffichee}]]></expression></element>
+            <element kind="textField" x="90" y="0" width="125" height="26" style="Cell"><expression><![CDATA[$F{numeroFacture}]]></expression></element>
+            <element kind="textField" x="215" y="0" width="260" height="26" style="Cell"><expression><![CDATA[$F{fournisseurNom}]]></expression></element>
+            <element kind="textField" x="475" y="0" width="75" height="26" style="Cell" pattern="#,##0" hTextAlign="Right"><expression><![CDATA[$F{nombreLignes}]]></expression></element>
+            <element kind="textField" x="550" y="0" width="244" height="26" style="Cell" pattern="#,##0.##" hTextAlign="Right"><expression><![CDATA[$F{montantTotal}]]></expression></element>
+        </band>
+    </detail>
+    <pageFooter height="18">
+        <element kind="textField" x="694" y="2" width="100" height="14" forecolor="#66756C" fontSize="8.0" hTextAlign="Right">
+            <expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
+        </element>
+    </pageFooter>
+    <summary height="55">
+        <element kind="staticText" x="0" y="4" width="794" height="16" forecolor="#153B2F" fontSize="10.0" bold="true"><text><![CDATA[TOTAUX DE LA PÉRIODE]]></text></element>
+        <element kind="staticText" x="0" y="27" width="250" height="13" forecolor="#526258" fontSize="8.0"><text><![CDATA[Factures]]></text></element>
+        <element kind="textField" x="0" y="42" width="250" height="13" fontSize="10.0" bold="true" pattern="#,##0"><expression><![CDATA[$P{nombreFactures}]]></expression></element>
+        <element kind="staticText" x="265" y="27" width="250" height="13" forecolor="#526258" fontSize="8.0"><text><![CDATA[Lignes achetées]]></text></element>
+        <element kind="textField" x="265" y="42" width="250" height="13" fontSize="10.0" bold="true" pattern="#,##0"><expression><![CDATA[$P{nombreLignes}]]></expression></element>
+        <element kind="staticText" x="530" y="27" width="264" height="13" forecolor="#526258" fontSize="8.0"><text><![CDATA[Montant total]]></text></element>
+        <element kind="textField" x="530" y="42" width="264" height="13" fontSize="10.0" bold="true" pattern="#,##0.##"><expression><![CDATA[$P{montantTotal}]]></expression></element>
+    </summary>
+    <noData height="28">
+        <element kind="staticText" x="0" y="0" width="794" height="28" forecolor="#66756C" fontSize="9.0" vTextAlign="Middle">
+            <text><![CDATA[Aucun achat enregistré sur cette période.]]></text>
+        </element>
+    </noData>
+</jasperReport>

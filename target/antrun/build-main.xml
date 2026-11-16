@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <pathconvert property="jasper.compiler.classpath" refid="maven.test.classpath" />
+    <java fork="true" classname="bj.restaurant.couts.service.RapportTemplateCompiler" failonerror="true">
+      <classpath refid="maven.test.classpath" />
+      <sysproperty value="${jasper.compiler.classpath}" key="net.sf.jasperreports.compiler.classpath" />
+      <arg value="C:\Users\Dell\Documents\NetBeansProjects\Brish\target\classes/reports" />
+    </java>
+  </target>
+</project>

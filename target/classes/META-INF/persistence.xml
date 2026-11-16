@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+  <persistence-unit name="BrishPU" transaction-type="JTA">
+    <jta-data-source>java:/jdbc/BrishDS</jta-data-source>
+    <class>bj.restaurant.couts.config.AutorisationsRole</class>
+    <class>bj.restaurant.couts.config.AutorisationsRolePK</class>
+    <class>bj.restaurant.couts.config.AutorisationsUtilisateur</class>
+    <class>bj.restaurant.couts.config.AutorisationsUtilisateurPK</class>
+    <class>bj.restaurant.couts.config.ReinitialisationsMotDePasse</class>
+    <class>bj.restaurant.couts.Entities.Achat</class>
+    <class>bj.restaurant.couts.Entities.ChargeProduction</class>
+    <class>bj.restaurant.couts.Entities.Fournisseur</class>
+    <class>bj.restaurant.couts.Entities.Ingredient</class>
+    <class>bj.restaurant.couts.Entities.HistoriqueCout</class>
+    <class>bj.restaurant.couts.Entities.LigneAchat</class>
+    <class>bj.restaurant.couts.Entities.LigneProduction</class>
+    <class>bj.restaurant.couts.Entities.LigneRecette</class>
+    <class>bj.restaurant.couts.Entities.LigneVente</class>
+    <class>bj.restaurant.couts.Entities.Met</class>
+    <class>bj.restaurant.couts.Entities.ParametresRestaurant</class>
+    <class>bj.restaurant.couts.Entities.Production</class>
+    <class>bj.restaurant.couts.Entities.Recette</class>
+    <class>bj.restaurant.couts.Entities.Utilisateur</class>
+    <class>bj.restaurant.couts.Entities.Vente</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
+    </properties>
+  </persistence-unit>
+</persistence>

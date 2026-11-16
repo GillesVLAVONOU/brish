@@ -6,14 +6,14 @@ module add --name=org.postgresql --resources=/tmp/postgresql.jar --dependencies=
 # 2. Enregistrer le driver JDBC dans WildFly
 /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
 
-# 3. Créer la DataSource JNDI exactement au nom attendu par Brish (java:/jdbc/BrishDS)
+# 3. Créer la DataSource JNDI attendue par Brish avec les variables du conteneur
 data-source add \
     --name=BrishDS \
     --jndi-name=java:/jdbc/BrishDS \
     --driver-name=postgresql \
-    --connection-url=${env.BRISH_DB_URL} \
-    --user-name=${env.BRISH_DB_USER} \
-    --password=${env.BRISH_DB_PASSWORD} \
+    --connection-url="${env.BRISH_DB_URL}" \
+    --user-name="${env.BRISH_DB_USER}" \
+    --password="${env.BRISH_DB_PASSWORD}" \
     --validate-on-match=true \
     --background-validation=false \
     --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker \

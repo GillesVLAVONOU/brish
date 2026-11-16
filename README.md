@@ -97,4 +97,10 @@ Le projet cible Java 25 LTS. Utilisez un JDK 25 pour compiler et exécuter l'app
 mvn clean package
 ```
 
+## Déploiement sur Render
+
+Créer un service Web avec le runtime **Docker** et le nom `brish` pour obtenir l'adresse `https://brish.onrender.com` (si ce nom est disponible). Le conteneur utilise Java 25 et WildFly 41, configure `java:/jdbc/BrishDS` au démarrage à partir des variables d'environnement, puis déploie l'application sous `ROOT.war` pour qu'elle s'affiche directement à la racine de l'adresse. Il écoute sur le port `PORT` fourni par Render.
+
+Créer d'abord une base PostgreSQL Render et ajouter au service les variables `BRISH_DB_URL`, `BRISH_DB_USER` et `BRISH_DB_PASSWORD`. `BRISH_DB_URL` doit être une URL JDBC, par exemple `jdbc:postgresql://<hôte-interne>:5432/<nom-base>` ; utiliser l'hôte interne Render, pas `localhost` ni l'URL `postgres://` complète. Appliquer ensuite les migrations SQL à cette base. Ne placez jamais les identifiants dans le dépôt. Les variables SMTP et `BRISH_PUBLIC_BASE_URL` restent facultatives, sauf si la réinitialisation de mot de passe par e-mail doit être activée.
+
 Les modules Ingrédients, Fournisseurs, Mets, Productions et Ventes proposent la consultation et la gestion de leurs données. Les achats enregistrent les factures et leurs lignes. Les fiches recettes conservent leurs versions successives. Le suivi des ventes exige que chaque vente corresponde à une production clôturée disposant d'un coût enregistré.

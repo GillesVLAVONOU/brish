@@ -16,11 +16,7 @@ data-source add \
     --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker \
     --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
 
-# 2. Session Mail JNDI
-/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=brish-smtp:add(host="${env.BRISH_SMTP_HOST:://gmail.com}", port="${env.BRISH_SMTP_PORT:587}")
-/subsystem=mail/mail-session="BrishMailSession":add(jndi-name="java:jboss/mail/BrishMail", from="${env.BRISH_MAIL_FROM:noreply@brish.bj}")
-/subsystem=mail/mail-session="BrishMailSession"/server=smtp:add(outbound-socket-binding-ref="brish-smtp", username="${env.BRISH_SMTP_USER:}", password="${env.BRISH_SMTP_PASSWORD:}", tls=true)
-# Ajouter cette ligne dans votre fichier docker/configure-wildfly.cli (avant stop-embedded-server)
+# 2. Utiliser les en-têtes HTTPS transmis par le proxy Render
 /subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=proxy-address-forwarding, value=true)
 
 stop-embedded-server

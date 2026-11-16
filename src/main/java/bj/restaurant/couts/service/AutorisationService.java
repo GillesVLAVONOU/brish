@@ -29,12 +29,15 @@ public class AutorisationService {
 		if (role == Role.ADMINISTRATEUR) {
 			return true;
 		}
-		DroitsRole droits = autorisationDAO.chargerDroitEffectif(utilisateurId, role, module);
+		DroitsRole droitsRole = autorisationDAO.chargerDroitsRole(role).getOrDefault(module,
+				new DroitsRole(module.consultationParDefaut(role), module.modificationParDefaut(role)));
+		DroitsModule droits = creerVue(module, droitsRole,
+				autorisationDAO.chargerDroitsPersonnalises(utilisateurId).get(module));
 		if ("GET".equalsIgnoreCase(methode) || "HEAD".equalsIgnoreCase(methode)) {
-			return droits.consultation() || droits.modification();
+			return droits.isConsultationEffective();
 		}
 		if ("POST".equalsIgnoreCase(methode)) {
-			return droits.modification();
+			return droits.isModificationEffective();
 		}
 		return false;
 	}

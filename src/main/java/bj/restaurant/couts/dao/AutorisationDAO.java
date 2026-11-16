@@ -45,25 +45,6 @@ public class AutorisationDAO {
 		return droits;
 	}
 
-	public DroitsRole chargerDroitEffectif(Integer utilisateurId, Role role, ModuleApplication module) {
-		List<?> lignes = entityManager.createNativeQuery(
-				"SELECT COALESCE(u.peut_consulter, r.peut_consulter, FALSE), "
-						+ "COALESCE(u.peut_modifier, r.peut_modifier, FALSE) "
-						+ "FROM autorisations_role r "
-						+ "LEFT JOIN autorisations_utilisateur u "
-						+ "ON u.id_utilisateur = :utilisateurId AND u.module = r.module "
-						+ "WHERE r.role = :role AND r.module = :module")
-				.setParameter("utilisateurId", utilisateurId)
-				.setParameter("role", role.name())
-				.setParameter("module", module.name())
-				.getResultList();
-		if (lignes.isEmpty()) {
-			return new DroitsRole(false, false);
-		}
-		Object[] ligne = (Object[]) lignes.get(0);
-		return new DroitsRole((Boolean) ligne[0], (Boolean) ligne[1]);
-	}
-
 	public void enregistrerDroitsRole(Role role, ModuleApplication module, DroitsRole droits) {
 		entityManager.createNativeQuery(
 				"INSERT INTO autorisations_role (role, module, peut_consulter, peut_modifier) "

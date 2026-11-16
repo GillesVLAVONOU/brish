@@ -22,12 +22,13 @@ case "$PORT" in
 esac
 
 JBOSS_HOME="${JBOSS_HOME:-/opt/jboss/wildfly}"
+BRISH_HOME="$JBOSS_HOME/brish"
 CONFIG_MARKER="$JBOSS_HOME/standalone/configuration/.brish-datasource-configured"
 
 if [ ! -f "$CONFIG_MARKER" ]; then
-    "$JBOSS_HOME/bin/jboss-cli.sh" --file=/tmp/configure-wildfly.cli
+    "$JBOSS_HOME/bin/jboss-cli.sh" --file="$BRISH_HOME/configure-wildfly.cli"
     touch "$CONFIG_MARKER"
 fi
 
-cp /tmp/ROOT.war "$JBOSS_HOME/standalone/deployments/ROOT.war"
+cp "$BRISH_HOME/ROOT.war" "$JBOSS_HOME/standalone/deployments/ROOT.war"
 exec "$JBOSS_HOME/bin/standalone.sh" -b 0.0.0.0 -Djboss.http.port="$PORT"

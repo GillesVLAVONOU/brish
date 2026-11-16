@@ -10,10 +10,10 @@ RUN mvn -B dependency:copy \
 FROM quay.io/wildfly/wildfly:41.0.1.Final-jdk25
 ENV JBOSS_HOME=/opt/jboss/wildfly
 
-COPY --from=build /app/postgresql.jar /tmp/postgresql.jar
-COPY --from=build /app/target/Brish-1.0-SNAPSHOT.war /tmp/ROOT.war
-COPY docker/configure-wildfly.cli /tmp/configure-wildfly.cli
-COPY docker/start-wildfly.sh /tmp/start-wildfly.sh
+COPY --from=build /app/postgresql.jar /opt/jboss/wildfly/brish/postgresql.jar
+COPY --from=build /app/target/Brish-1.0-SNAPSHOT.war /opt/jboss/wildfly/brish/ROOT.war
+COPY docker/configure-wildfly.cli /opt/jboss/wildfly/brish/configure-wildfly.cli
+COPY docker/start-wildfly.sh /opt/jboss/wildfly/brish/start-wildfly.sh
 
 EXPOSE 10000
-CMD ["/bin/sh", "/tmp/start-wildfly.sh"]
+CMD ["/bin/sh", "/opt/jboss/wildfly/brish/start-wildfly.sh"]

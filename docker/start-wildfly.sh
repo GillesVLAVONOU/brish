@@ -31,4 +31,5 @@ if [ ! -f "$CONFIG_MARKER" ]; then
 fi
 
 cp "$BRISH_HOME/ROOT.war" "$JBOSS_HOME/standalone/deployments/ROOT.war"
+export JAVA_OPTS="-Xms128m -Xmx300m -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=128m -XX:+UseSerialGC -Djava.net.preferIPv4Stack=true"
 exec "$JBOSS_HOME/bin/standalone.sh" -b 0.0.0.0 -Djboss.http.port="$PORT"

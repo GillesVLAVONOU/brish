@@ -1,0 +1,52 @@
+<%@ taglib prefix="sidebar" uri="jakarta.tags.core" %>
+<sidebar:set var="sidebarPath" value="${not empty requestScope['jakarta.servlet.forward.servlet_path'] ? requestScope['jakarta.servlet.forward.servlet_path'] : pageContext.request.servletPath}"/>
+<button class="mobile-menu-toggle" type="button" aria-label="Ouvrir le menu" aria-controls="app-sidebar" aria-expanded="false">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+</button>
+<button class="sidebar-backdrop" type="button" aria-label="Fermer le menu" tabindex="-1"></button>
+<aside class="sidebar" id="app-sidebar">
+    <a class="brand brand-dark" href="${pageContext.request.contextPath}${cheminAccueilAutorise}">
+        <img class="brand-mark-image" src="${pageContext.request.contextPath}/assets/images/logo-brish.png" alt="">
+        <span>Brish<span class="brand-dot"></span></span>
+    </a>
+
+    <div class="restaurant-switcher">
+        <span class="restaurant-name"><strong>${nomRestaurantHtml}</strong><small>${localisationRestaurantHtml}</small></span>
+    </div>
+
+    <sidebar:if test="${modulesAutorises.contains('DASHBOARD') or modulesAutorises.contains('INGREDIENTS') or modulesAutorises.contains('FOURNISSEURS') or modulesAutorises.contains('ACHATS') or modulesAutorises.contains('METS') or modulesAutorises.contains('RECETTES') or modulesAutorises.contains('PRODUCTIONS') or modulesAutorises.contains('VENTES') or modulesAutorises.contains('RAPPORTS')}">
+    <p class="nav-label">ESPACE DE TRAVAIL</p>
+    <nav class="side-nav" aria-label="Navigation principale">
+        <sidebar:if test="${modulesAutorises.contains('DASHBOARD')}"><a class="nav-item ${sidebarPath eq '/dashboard' ? 'active' : ''}" href="${pageContext.request.contextPath}/dashboard"><span class="nav-icon" aria-hidden="true">&#x25A6;</span><span>Dashboard</span></a></sidebar:if>
+        <sidebar:if test="${modulesAutorises.contains('INGREDIENTS')}"><a class="nav-item ${sidebarPath eq '/ingredients' ? 'active' : ''}" href="${pageContext.request.contextPath}/ingredients"><span class="nav-icon" aria-hidden="true">&#x25C8;</span><span>Ingr&#xE9;dients</span></a></sidebar:if>
+        <sidebar:if test="${modulesAutorises.contains('FOURNISSEURS')}"><a class="nav-item ${sidebarPath eq '/fournisseurs' ? 'active' : ''}" href="${pageContext.request.contextPath}/fournisseurs"><span class="nav-icon" aria-hidden="true">&#x2667;</span><span>Fournisseurs</span></a></sidebar:if>
+        <sidebar:if test="${modulesAutorises.contains('ACHATS')}"><a class="nav-item ${sidebarPath eq '/achats' ? 'active' : ''}" href="${pageContext.request.contextPath}/achats"><span class="nav-icon" aria-hidden="true">&#x2199;</span><span>Achats</span></a></sidebar:if>
+        <sidebar:if test="${modulesAutorises.contains('METS') or modulesAutorises.contains('RECETTES')}"><a class="nav-item ${sidebarPath eq '/mets' or sidebarPath eq '/recettes' ? 'active' : ''}" href="${pageContext.request.contextPath}${modulesAutorises.contains('METS') ? '/mets' : '/recettes'}"><span class="nav-icon" aria-hidden="true">&#x25C9;</span><span>Mets &amp; recettes</span></a></sidebar:if>
+        <sidebar:if test="${modulesAutorises.contains('PRODUCTIONS')}"><a class="nav-item ${sidebarPath eq '/productions' ? 'active' : ''}" href="${pageContext.request.contextPath}/productions"><span class="nav-icon" aria-hidden="true">&#x25F7;</span><span>Productions</span></a></sidebar:if>
+        <sidebar:if test="${modulesAutorises.contains('VENTES')}"><a class="nav-item ${sidebarPath eq '/ventes' ? 'active' : ''}" href="${pageContext.request.contextPath}/ventes"><span class="nav-icon" aria-hidden="true">&#x25B6;</span><span>Ventes</span></a></sidebar:if>
+        <sidebar:if test="${modulesAutorises.contains('RAPPORTS')}"><a class="nav-item ${sidebarPath eq '/rapports' ? 'active' : ''}" href="${pageContext.request.contextPath}/rapports"><span class="nav-icon" aria-hidden="true">&#x25A4;</span><span>Rapports</span></a></sidebar:if>
+    </nav>
+    </sidebar:if>
+
+    <sidebar:if test="${modulesAutorises.contains('PARAMETRES') or sessionScope.roleUtilisateur eq 'ADMINISTRATEUR'}">
+    <p class="nav-label nav-label-lower">CONFIGURATION</p>
+    <nav class="side-nav" aria-label="Configuration">
+        <sidebar:if test="${modulesAutorises.contains('PARAMETRES')}"><a class="nav-item ${sidebarPath eq '/parametres' ? 'active' : ''}" href="${pageContext.request.contextPath}/parametres"><span class="nav-icon" aria-hidden="true">&#x2699;</span><span>Param&#xE8;tre</span></a></sidebar:if>
+        <sidebar:if test="${sessionScope.roleUtilisateur eq 'ADMINISTRATEUR'}"><a class="nav-item ${sidebarPath eq '/utilisateurs' ? 'active' : ''}" href="${pageContext.request.contextPath}/utilisateurs"><span class="nav-icon" aria-hidden="true">&#x2659;</span><span>Administration</span></a></sidebar:if>
+    </nav>
+    </sidebar:if>
+
+    <div class="sidebar-bottom">
+        <div class="profile-row">
+            <span class="profile-avatar"><sidebar:out value="${initialesUtilisateur}"/></span>
+            <span class="profile-name"><strong><sidebar:out value="${sessionScope.nomUtilisateur}"/></strong><small><sidebar:out value="${roleUtilisateurLibelle}"/></small></span>
+        </div>
+        <form action="${pageContext.request.contextPath}/logout" method="post" class="logout-form">
+            <input type="hidden" name="jetonDeconnexion" value="<sidebar:out value='${jetonDeconnexion}'/>">
+            <button class="sidebar-logout" type="submit">Se d&#xE9;connecter</button>
+        </form>
+    </div>
+</aside>
+<script src="${pageContext.request.contextPath}/assets/js/mobile-sidebar.js" defer></script>

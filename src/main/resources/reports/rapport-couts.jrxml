@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport name="rapport-couts" pageWidth="842" pageHeight="595" columnWidth="794"
+              leftMargin="24" rightMargin="24" topMargin="24" bottomMargin="24"
+              whenNoDataType="NoDataSection">
+    <style name="Header" mode="Opaque" backcolor="#153B2F" forecolor="#FFFFFF"
+           fontName="SansSerif" fontSize="8.0" bold="true" vTextAlign="Middle">
+        <box leftPadding="6" rightPadding="6"/>
+    </style>
+    <style name="Cell" forecolor="#24362F" fontName="SansSerif" fontSize="8.0" vTextAlign="Middle"/>
+    <parameter name="REPORT_TITLE" class="java.lang.String"/>
+    <parameter name="RESTAURANT_NAME" class="java.lang.String"/>
+    <parameter name="PERIOD" class="java.lang.String"/>
+    <parameter name="CURRENCY" class="java.lang.String"/>
+    <parameter name="nombreProductions" class="java.lang.Integer"/>
+    <parameter name="totalPortions" class="java.lang.Long"/>
+    <parameter name="totalMatieres" class="java.math.BigDecimal"/>
+    <parameter name="totalCharges" class="java.math.BigDecimal"/>
+    <parameter name="totalCout" class="java.math.BigDecimal"/>
+    <parameter name="coutMoyenPortion" class="java.math.BigDecimal"/>
+    <field name="dateAffichee" class="java.lang.String"/>
+    <field name="metNom" class="java.lang.String"/>
+    <field name="versionRecette" class="java.lang.Integer"/>
+    <field name="portionsReelles" class="java.lang.Integer"/>
+    <field name="coutMatiere" class="java.math.BigDecimal"/>
+    <field name="coutCharges" class="java.math.BigDecimal"/>
+    <field name="coutTotal" class="java.math.BigDecimal"/>
+    <field name="coutUnitaire" class="java.math.BigDecimal"/>
+    <title height="62">
+        <element kind="textField" x="0" y="0" width="794" height="27" fontSize="18.0" bold="true">
+            <expression><![CDATA[$P{REPORT_TITLE}]]></expression>
+        </element>
+        <element kind="textField" x="0" y="32" width="794" height="17" forecolor="#526258" fontSize="10.0" bold="true">
+            <expression><![CDATA[$P{RESTAURANT_NAME}]]></expression>
+        </element>
+        <element kind="textField" x="0" y="48" width="794" height="14" forecolor="#526258" fontSize="9.0">
+            <expression><![CDATA[$P{PERIOD} + "  |  Montants en " + $P{CURRENCY}]]></expression>
+        </element>
+    </title>
+    <columnHeader height="28">
+        <element kind="staticText" x="0" y="0" width="92" height="28" style="Header"><text><![CDATA[DATE]]></text></element>
+        <element kind="staticText" x="92" y="0" width="160" height="28" style="Header"><text><![CDATA[METS / RECETTE]]></text></element>
+        <element kind="staticText" x="252" y="0" width="72" height="28" style="Header" hTextAlign="Right"><text><![CDATA[PORTIONS]]></text></element>
+        <element kind="staticText" x="324" y="0" width="110" height="28" style="Header" hTextAlign="Right"><text><![CDATA[MATIÈRE]]></text></element>
+        <element kind="staticText" x="434" y="0" width="100" height="28" style="Header" hTextAlign="Right"><text><![CDATA[CHARGES]]></text></element>
+        <element kind="staticText" x="534" y="0" width="110" height="28" style="Header" hTextAlign="Right"><text><![CDATA[COÛT TOTAL]]></text></element>
+        <element kind="staticText" x="644" y="0" width="150" height="28" style="Header" hTextAlign="Right"><text><![CDATA[COÛT / PORTION]]></text></element>
+    </columnHeader>
+    <detail>
+        <band height="26">
+            <element kind="textField" x="0" y="0" width="92" height="26" style="Cell"><expression><![CDATA[$F{dateAffichee}]]></expression></element>
+            <element kind="textField" x="92" y="0" width="160" height="26" style="Cell"><expression><![CDATA[$F{metNom} + " · v" + $F{versionRecette}]]></expression></element>
+            <element kind="textField" x="252" y="0" width="72" height="26" style="Cell" pattern="#,##0" hTextAlign="Right"><expression><![CDATA[$F{portionsReelles}]]></expression></element>
+            <element kind="textField" x="324" y="0" width="110" height="26" style="Cell" pattern="#,##0.##" hTextAlign="Right"><expression><![CDATA[$F{coutMatiere}]]></expression></element>
+            <element kind="textField" x="434" y="0" width="100" height="26" style="Cell" pattern="#,##0.##" hTextAlign="Right"><expression><![CDATA[$F{coutCharges}]]></expression></element>
+            <element kind="textField" x="534" y="0" width="110" height="26" style="Cell" pattern="#,##0.##" hTextAlign="Right"><expression><![CDATA[$F{coutTotal}]]></expression></element>
+            <element kind="textField" x="644" y="0" width="150" height="26" style="Cell" pattern="#,##0.##" hTextAlign="Right"><expression><![CDATA[$F{coutUnitaire}]]></expression></element>
+        </band>
+    </detail>
+    <pageFooter height="18">
+        <element kind="textField" x="694" y="2" width="100" height="14" forecolor="#66756C" fontSize="8.0" hTextAlign="Right">
+            <expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
+        </element>
+    </pageFooter>
+    <summary height="90">
+        <element kind="staticText" x="0" y="4" width="794" height="16" forecolor="#153B2F" fontSize="10.0" bold="true"><text><![CDATA[TOTAUX DE LA PÉRIODE]]></text></element>
+        <element kind="staticText" x="0" y="27" width="250" height="13" forecolor="#526258" fontSize="8.0"><text><![CDATA[Productions terminées]]></text></element>
+        <element kind="textField" x="0" y="42" width="250" height="16" fontSize="10.0" bold="true" pattern="#,##0"><expression><![CDATA[$P{nombreProductions}]]></expression></element>
+        <element kind="staticText" x="265" y="27" width="250" height="13" forecolor="#526258" fontSize="8.0"><text><![CDATA[Portions produites]]></text></element>
+        <element kind="textField" x="265" y="42" width="250" height="16" fontSize="10.0" bold="true" pattern="#,##0"><expression><![CDATA[$P{totalPortions}]]></expression></element>
+        <element kind="staticText" x="530" y="27" width="120" height="13" forecolor="#526258" fontSize="8.0"><text><![CDATA[Coût matière]]></text></element>
+        <element kind="textField" x="530" y="42" width="120" height="16" fontSize="10.0" bold="true" pattern="#,##0.##"><expression><![CDATA[$P{totalMatieres}]]></expression></element>
+        <element kind="staticText" x="0" y="60" width="250" height="13" forecolor="#526258" fontSize="8.0"><text><![CDATA[Charges]]></text></element>
+        <element kind="textField" x="0" y="73" width="250" height="15" fontSize="10.0" bold="true" pattern="#,##0.##"><expression><![CDATA[$P{totalCharges}]]></expression></element>
+        <element kind="staticText" x="265" y="60" width="250" height="13" forecolor="#526258" fontSize="8.0"><text><![CDATA[Coût total]]></text></element>
+        <element kind="textField" x="265" y="73" width="250" height="15" fontSize="10.0" bold="true" pattern="#,##0.##"><expression><![CDATA[$P{totalCout}]]></expression></element>
+        <element kind="staticText" x="530" y="60" width="264" height="13" forecolor="#526258" fontSize="8.0"><text><![CDATA[Coût moyen par portion]]></text></element>
+        <element kind="textField" x="530" y="73" width="264" height="15" fontSize="10.0" bold="true" pattern="#,##0.##"><expression><![CDATA[$P{coutMoyenPortion}]]></expression></element>
+    </summary>
+    <noData height="28">
+        <element kind="staticText" x="0" y="0" width="794" height="28" forecolor="#66756C" fontSize="9.0" vTextAlign="Middle">
+            <text><![CDATA[Aucune production clôturée sur cette période.]]></text>
+        </element>
+    </noData>
+</jasperReport>

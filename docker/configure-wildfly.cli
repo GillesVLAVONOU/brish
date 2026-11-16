@@ -1,5 +1,9 @@
 embed-server --server-config=standalone.xml --std-out=echo
 
+# Autoriser WildFly à résoudre ${env.BRISH_...} au démarrage du serveur
+/subsystem=ee:write-attribute(name=spec-descriptor-property-replacement,value=true)
+/subsystem=ee:write-attribute(name=jboss-descriptor-property-replacement,value=true)
+
 # 1. Pilote et DataSource PostgreSQL
 module add --name=org.postgresql --resources=/opt/jboss/wildfly/brish/postgresql.jar --dependencies=javax.api,javax.transaction.api
 /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
@@ -16,7 +20,12 @@ data-source add \
     --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker \
     --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
 
-# 2. Utiliser les en-têtes HTTPS transmis par le proxy Render
+# 2. Proxy HTTPS Render
 /subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=proxy-address-forwarding, value=true)
+
+# 3. Session Mail JNDI
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=brish-smtp:add(host="${env.BRISH_SMTP_HOST:://gmail.com}", port="${env.BRISH_SMTP_PORT:587}")
+/subsystem=mail/mail-session="BrishMailSession":add(jndi-name="java:jboss/mail/BrishMail", from="${env.BRISH_MAIL_FROM:noreply@brish.bj}")
+/subsystem=mail/mail-session="BrishMailSession"/server=smtp:add(outbound-socket-binding-ref="brish-smtp", username="${env.BRISH_SMTP_USER:placeholder}", password="${env.BRISH_SMTP_PASSWORD:placeholder}", tls=true)
 
 stop-embedded-server

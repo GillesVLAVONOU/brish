@@ -1,7 +1,7 @@
 embed-server --server-config=standalone.xml --std-out=echo
 
 # 1. Pilote et DataSource PostgreSQL
-module add --name=org.postgresql --resources=/tmp/postgresql.jar --dependencies=javax.api,javax.transaction.api
+module add --name=org.postgresql --resources=/opt/jboss/wildfly/brish/postgresql.jar --dependencies=javax.api,javax.transaction.api
 /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
 
 data-source add \

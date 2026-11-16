@@ -1,22 +1,24 @@
 embed-server --server-config=standalone.xml --std-out=echo
 
-# 1. Ajouter le module du pilote PostgreSQL
-module add --name=org.postgresql --resources=/opt/jboss/wildfly/brish/postgresql.jar --dependencies=javax.api,javax.transaction.api
-
-# 2. Enregistrer le driver JDBC dans WildFly
+# 1. Pilote et DataSource PostgreSQL
+module add --name=org.postgresql --resources=/tmp/postgresql.jar --dependencies=javax.api,javax.transaction.api
 /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
 
-# 3. Créer la DataSource JNDI attendue par Brish avec les variables du conteneur
 data-source add \
     --name=BrishDS \
     --jndi-name=java:/jdbc/BrishDS \
     --driver-name=postgresql \
-    --connection-url="${env.BRISH_DB_URL}" \
-    --user-name="${env.BRISH_DB_USER}" \
-    --password="${env.BRISH_DB_PASSWORD}" \
+    --connection-url=${env.BRISH_DB_URL} \
+    --user-name=${env.BRISH_DB_USER} \
+    --password=${env.BRISH_DB_PASSWORD} \
     --validate-on-match=true \
     --background-validation=false \
     --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker \
     --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
+
+# 2. Session Mail JNDI
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=brish-smtp:add(host="${env.BRISH_SMTP_HOST:://gmail.com}", port="${env.BRISH_SMTP_PORT:587}")
+/subsystem=mail/mail-session="BrishMailSession":add(jndi-name="java:jboss/mail/BrishMail", from="${env.BRISH_MAIL_FROM:noreply@brish.bj}")
+/subsystem=mail/mail-session="BrishMailSession"/server=smtp:add(outbound-socket-binding-ref="brish-smtp", username="${env.BRISH_SMTP_USER:}", password="${env.BRISH_SMTP_PASSWORD:}", tls=true)
 
 stop-embedded-server

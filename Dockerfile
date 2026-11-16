@@ -14,7 +14,7 @@ COPY docker/configure-wildfly.cli /tmp/configure-wildfly.cli
 RUN /opt/jboss/wildfly/bin/jboss-cli.sh --file=/tmp/configure-wildfly.cli && \
     rm -rf /opt/jboss/wildfly/standalone/configuration/standalone_xml_history/current/*
 
-COPY --from=build /app/target/*.war /opt/jboss/wildfly/standalone/deployments/
+COPY --from=build /app/target/*.war /opt/jboss/wildfly/standalone/deployments/ROOT.war
 
 EXPOSE 8080
 

@@ -68,7 +68,7 @@
 					<button class="button button-primary login-submit" type="submit">Accéder à mon espace <span aria-hidden="true">→</span></button>
 				</form>
 			</div>
-			<footer class="login-footer"><span>© 2026 Brish</span></footer>
+			<footer class="login-footer"></footer>
 		</section>
 	</main>
 </body>

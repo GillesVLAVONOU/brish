@@ -38,7 +38,6 @@
 
 		<section class="login-panel">
 			<div class="login-topline">
-				<span class="status-dot"></span>
 				<span>ESPACE DE GESTION</span>
 			</div>
 			<div class="login-content">

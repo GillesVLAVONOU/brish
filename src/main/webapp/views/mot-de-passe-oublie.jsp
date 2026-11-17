@@ -27,7 +27,7 @@
         </section>
 
         <section class="login-panel">
-            <div class="login-topline"><span class="status-dot"></span><span>RÉCUPÉRATION DU COMPTE</span></div>
+            <div class="login-topline"></div>
             <div class="login-content">
                 <p class="eyebrow">ACCÈS AU COMPTE</p>
                 <h2>Mot de passe oublié ?</h2>
@@ -46,7 +46,7 @@
                     <button class="button button-primary login-submit" type="submit">Envoyer le lien <span aria-hidden="true">&#x2192;</span></button>
                 </form>
             </div>
-            <footer class="login-footer"><a href="${pageContext.request.contextPath}/login">Retour à la connexion</a><span>© 2026 Brish</span></footer>
+            <footer class="login-footer"><a href="${pageContext.request.contextPath}/login">Retour à la connexion</a></footer>
         </section>
     </main>
 </body>

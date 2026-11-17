@@ -38,7 +38,6 @@
 
 		<section class="login-panel">
 			<div class="login-topline">
-				<span>ESPACE DE GESTION</span>
 			</div>
 			<div class="login-content">
 				<p class="eyebrow">BON RETOUR</p>
